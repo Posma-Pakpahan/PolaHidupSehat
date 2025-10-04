@@ -1,0 +1,52 @@
+{% extends 'base.html' %}
+
+{% block title %}Hapus Aktivitas - Pola Hidup Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-md-6">
+            <div class="card card-custom">
+                <div class="card-header bg-danger text-white">
+                    <h4 class="card-title mb-0">
+                        <i class="bi bi-trash me-2"></i>
+                        Konfirmasi Hapus
+                    </h4>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-warning alert-custom">
+                        <i class="bi bi-exclamation-triangle me-2"></i>
+                        <strong>Peringatan!</strong> Aktivitas yang dihapus tidak dapat dikembalikan.
+                    </div>
+                    
+                    <p>Apakah Anda yakin ingin menghapus aktivitas berikut?</p>
+                    
+                    <div class="bg-light p-3 rounded mb-4">
+                        <h6 class="mb-1">{{ activity.name }}</h6>
+                        <small class="text-muted">
+                            <i class="bi bi-calendar me-1"></i>{{ activity.get_day_display }}
+                            {% if activity.time %}
+                                <i class="bi bi-clock ms-2 me-1"></i>{{ activity.time }}
+                            {% endif %}
+                        </small>
+                    </div>
+
+                    <form method="post">
+                        {% csrf_token %}
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">
+                                <i class="bi bi-trash me-2"></i>
+                                Ya, Hapus
+                            </button>
+                            <a href="{% url 'tracker:dashboard' %}?week={{ week_offset }}" class="btn btn-outline-secondary">
+                                <i class="bi bi-x-lg me-2"></i>
+                                Batal
+                            </a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

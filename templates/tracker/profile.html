@@ -1,0 +1,178 @@
+{% extends 'base.html' %}
+
+{% block title %}Profil - Pola Hidup Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <!-- User Info -->
+        <div class="col-md-4 mb-4">
+            <div class="card card-custom">
+                <div class="card-body text-center">
+                    <div class="display-1 text-primary mb-3">
+                        <i class="bi bi-person-circle"></i>
+                    </div>
+                    <h4>{{ user.get_full_name|default:user.username }}</h4>
+                    <p class="text-muted">@{{ user.username }}</p>
+                    <small class="text-muted">
+                        Bergabung sejak {{ user.date_joined|date:"d F Y" }}
+                    </small>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Statistics -->
+        <div class="col-md-8">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <div class="card card-custom stats-card">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="display-6 me-3">
+                                    <i class="bi bi-calendar-week"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">{{ stats.total_weeks }}</h5>
+                                    <p class="card-text mb-0">Total Minggu</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card card-custom" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="display-6 me-3">
+                                    <i class="bi bi-list-check"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">{{ stats.total_activities }}</h5>
+                                    <p class="card-text mb-0">Total Aktivitas</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card card-custom" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: white;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="display-6 me-3">
+                                    <i class="bi bi-check-circle"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">{{ stats.completed_activities }}</h5>
+                                    <p class="card-text mb-0">Diselesaikan</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="col-md-6">
+                    <div class="card card-custom" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: white;">
+                        <div class="card-body">
+                            <div class="d-flex align-items-center">
+                                <div class="display-6 me-3">
+                                    <i class="bi bi-percent"></i>
+                                </div>
+                                <div>
+                                    <h5 class="card-title mb-0">{{ stats.completion_rate }}%</h5>
+                                    <p class="card-text mb-0">Tingkat Penyelesaian</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Achievement Section -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card card-custom">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-trophy me-2"></i>
+                        Pencapaian
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% if stats.completion_rate >= 80 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-success text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Achiever</h6>
+                                        <small>Tingkat penyelesaian >80%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.total_weeks >= 4 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-primary text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Consistent</h6>
+                                        <small>Tracking >1 bulan</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.total_activities >= 50 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-warning text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-lightning-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Active</h6>
+                                        <small>>50 aktivitas dibuat</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.completion_rate < 50 and stats.total_activities > 0 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-info text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-rocket"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Getting Started</h6>
+                                        <small>Terus semangat!</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if stats.total_activities == 0 %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-emoji-smile display-6 mb-3"></i>
+                            <p>Mulai tracking aktivitas Anda untuk mendapatkan pencapaian!</p>
+                            <a href="{% url 'tracker:dashboard' %}" class="btn btn-primary-custom">
+                                <i class="bi bi-house-door me-2"></i>
+                                Ke Dashboard
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,181 @@
+{% extends 'base.html' %}
+
+{% block title %}Statistik - Pola Hidup Tracker{% endblock %}
+
+{% block content %}
+<div class="container">
+    <div class="row">
+        <div class="col-12 mb-4">
+            <h2 class="mb-4">
+                <i class="bi bi-graph-up me-2"></i>
+                Statistik Keseluruhan
+            </h2>
+        </div>
+    </div>
+    
+    <!-- Statistics Cards -->
+    <div class="row g-4 mb-5">
+        <div class="col-md-3">
+            <div class="card card-custom stats-card">
+                <div class="card-body text-center">
+                    <div class="display-4 mb-3">
+                        <i class="bi bi-calendar-week"></i>
+                    </div>
+                    <h4>{{ stats.total_weeks }}</h4>
+                    <p class="mb-0">Total Minggu</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card card-custom" style="background: linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%); color: white;">
+                <div class="card-body text-center">
+                    <div class="display-4 mb-3">
+                        <i class="bi bi-list-check"></i>
+                    </div>
+                    <h4>{{ stats.total_activities }}</h4>
+                    <p class="mb-0">Total Aktivitas</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card card-custom" style="background: linear-gradient(135deg, #a8edea 0%, #fed6e3 100%); color: white;">
+                <div class="card-body text-center">
+                    <div class="display-4 mb-3">
+                        <i class="bi bi-check-circle"></i>
+                    </div>
+                    <h4>{{ stats.completed_activities }}</h4>
+                    <p class="mb-0">Diselesaikan</p>
+                </div>
+            </div>
+        </div>
+        
+        <div class="col-md-3">
+            <div class="card card-custom" style="background: linear-gradient(135deg, #ffecd2 0%, #fcb69f 100%); color: white;">
+                <div class="card-body text-center">
+                    <div class="display-4 mb-3">
+                        <i class="bi bi-percent"></i>
+                    </div>
+                    <h4>{{ stats.completion_rate }}%</h4>
+                    <p class="mb-0">Tingkat Penyelesaian</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Achievement Section -->
+    <div class="row">
+        <div class="col-12">
+            <div class="card card-custom">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-trophy me-2"></i>
+                        Pencapaian
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="row g-3">
+                        {% if stats.completion_rate >= 80 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-success text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-star-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Achiever</h6>
+                                        <small>Tingkat penyelesaian >80%</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.total_weeks >= 4 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-primary text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-calendar-check"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Consistent</h6>
+                                        <small>Tracking >1 bulan</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.total_activities >= 50 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-warning text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-lightning-fill"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Active</h6>
+                                        <small>>50 aktivitas dibuat</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                        
+                        {% if stats.completion_rate < 50 and stats.total_activities > 0 %}
+                            <div class="col-md-4">
+                                <div class="d-flex align-items-center p-3 bg-info text-white rounded">
+                                    <div class="display-6 me-3">
+                                        <i class="bi bi-rocket"></i>
+                                    </div>
+                                    <div>
+                                        <h6 class="mb-0">Getting Started</h6>
+                                        <small>Terus semangat!</small>
+                                    </div>
+                                </div>
+                            </div>
+                        {% endif %}
+                    </div>
+                    
+                    {% if stats.total_activities == 0 %}
+                        <div class="text-center text-muted py-4">
+                            <i class="bi bi-emoji-smile display-6 mb-3"></i>
+                            <p>Mulai tracking aktivitas Anda untuk mendapatkan pencapaian!</p>
+                            <a href="{% url 'tracker:dashboard' %}" class="btn btn-primary-custom">
+                                <i class="bi bi-house-door me-2"></i>
+                                Ke Dashboard
+                            </a>
+                        </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Database Info -->
+    <div class="row mt-4">
+        <div class="col-12">
+            <div class="card card-custom">
+                <div class="card-header bg-light">
+                    <h5 class="card-title mb-0">
+                        <i class="bi bi-database me-2"></i>
+                        Informasi Database
+                    </h5>
+                </div>
+                <div class="card-body">
+                    <div class="alert alert-info alert-custom">
+                        <h6><i class="bi bi-info-circle me-2"></i>SQLite Database</h6>
+                        <p class="mb-2">Aplikasi ini menggunakan <strong>SQLite</strong> sebagai database lokal:</p>
+                        <ul class="mb-2">
+                            <li><strong>Lokasi</strong>: <code>db.sqlite3</code> di folder project</li>
+                            <li><strong>Keunggulan</strong>: Ringan, tidak perlu instalasi server terpisah</li>
+                            <li><strong>Kapasitas</strong>: Cukup untuk penggunaan personal</li>
+                            <li><strong>Backup</strong>: Cukup copy file <code>db.sqlite3</code></li>
+                        </ul>
+                        <p class="mb-0">
+                            <strong>Tip</strong>: Untuk backup data, cukup copy file <code>db.sqlite3</code> ke lokasi aman. 
+                            Untuk restore, ganti file yang ada dengan backup.
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
